@@ -10,8 +10,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 grid md:grid-cols-3 gap-12">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">👑</span>
-            <span className="font-heading text-lg font-bold text-foreground">MEROVIAN</span>
+            <span className="font-heading text-lg font-bold text-foreground">BRAYO SITE</span>
           </div>
           <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
             Trade major crypto assets with confidence and clarity. Professional trading experience with security-first systems.
@@ -47,7 +46,7 @@ const Footer = () => {
 
       <div className="container mx-auto px-4 mt-12 pt-6 border-t border-border">
         <p className="text-muted-foreground text-sm text-center">
-          © 2024 Merovian. All rights reserved.
+          © 2024 Brayo Site. All rights reserved.
         </p>
       </div>
     </footer>
