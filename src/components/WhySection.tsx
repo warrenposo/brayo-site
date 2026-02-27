@@ -18,7 +18,7 @@ const WhySection = () => {
     <section className="py-24">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-heading font-bold text-center text-gradient-blue">
-          Why Merovian?
+          Why Brayo Site?
         </h2>
         <div className="section-divider mb-12" />
 

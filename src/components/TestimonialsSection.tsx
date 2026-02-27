@@ -8,7 +8,7 @@ const testimonials = [
   {
     name: "Olivia Sarah",
     location: "🇬🇧 United Kingdom",
-    quote: "Merovian transformed my trading experience. The instant exchange and real-time market data help me make profitable decisions every time.",
+    quote: "Brayo Site transformed my trading experience. The instant exchange and real-time market data help me make profitable decisions every time.",
     image: testimonial1,
   },
   {
@@ -20,7 +20,7 @@ const testimonials = [
   {
     name: "James Mitchell",
     location: "🇺🇸 United States",
-    quote: "The real-time market insights and intuitive interface make Merovian stand out. I've seen consistent growth since I started using it.",
+    quote: "The real-time market insights and intuitive interface make Brayo Site stand out. I've seen consistent growth since I started using it.",
     image: testimonial3,
   },
 ];
@@ -57,9 +57,8 @@ const TestimonialsSection = () => {
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  i === active ? "bg-primary" : "bg-muted-foreground/40"
-                }`}
+                className={`w-3 h-3 rounded-full transition-colors ${i === active ? "bg-primary" : "bg-muted-foreground/40"
+                  }`}
               />
             ))}
           </div>

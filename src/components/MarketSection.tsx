@@ -46,12 +46,12 @@ const MarketSection = () => {
 
           {/* Empower text */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-heading font-bold text-foreground">How Merovian Empowers You</h3>
+            <h3 className="text-2xl font-heading font-bold text-foreground">How Brayo Site Empowers You</h3>
             <p className="text-muted-foreground leading-relaxed">
               Digital assets move 24/7 across global exchanges, driven by institutional flows, retail sentiment, and macroeconomic forces. Understanding these patterns is the key to profitable trading.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Merovian enables you to buy and sell crypto profitably with precision timing tools and market insights. Buy and Sell with our secure, fast platform designed for profitable outcomes.
+              Brayo Site enables you to buy and sell crypto profitably with precision timing tools and market insights. Buy and Sell with our secure, fast platform designed for profitable outcomes.
             </p>
             <button className="px-8 py-3 rounded-md bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity">
               Trade Now

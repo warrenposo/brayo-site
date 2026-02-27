@@ -32,9 +32,9 @@ const LearnMoreSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <div className="space-y-6">
-            <h3 className="text-2xl font-heading font-bold text-foreground">How Merovian Works</h3>
+            <h3 className="text-2xl font-heading font-bold text-foreground">How Brayo Site Works</h3>
             <p className="text-muted-foreground leading-relaxed">
-              Merovian uses a custodial model with platform-led wallet controls, deposit verification workflows, and clear account visibility designed for retail growth.
+              Brayo Site uses a custodial model with platform-led wallet controls, deposit verification workflows, and clear account visibility designed for retail growth.
             </p>
             <div>
               <h4 className="text-foreground font-heading font-bold mb-2">Simple Process</h4>
