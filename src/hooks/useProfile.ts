@@ -44,16 +44,18 @@ export const useProfile = () => {
     useEffect(() => {
         fetchProfile();
 
-        // Subscribe to realtime changes
         const channel = supabase
-            .channel("profile_changes")
+            .channel(`profile_${Math.random()}`)
             .on(
                 "postgres_changes",
                 { event: "UPDATE", schema: "public", table: "profiles" },
                 (payload) => {
-                    if (profile && payload.new.id === profile.id) {
-                        setProfile(payload.new as Profile);
-                    }
+                    setProfile((currentProfile) => {
+                        if (currentProfile && payload.new.id === currentProfile.id) {
+                            return payload.new as Profile;
+                        }
+                        return currentProfile;
+                    });
                 }
             )
             .subscribe();

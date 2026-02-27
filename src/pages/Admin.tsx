@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Users, CreditCard, ShieldCheck, MessageSquare, Send, Clock, ChevronRight, Activity } from "lucide-react";
@@ -33,7 +33,7 @@ interface Message {
 }
 
 const Admin = () => {
-    const { profile: adminProfile } = useProfile();
+    const { profile: adminProfile, loading: profileLoading } = useProfile();
     const [users, setUsers] = useState<Profile[]>([]);
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
@@ -135,7 +135,18 @@ const Admin = () => {
         }
     };
 
-    if (adminProfile?.user_type !== "admin") {
+    if (profileLoading) {
+        return (
+            <DashboardLayout>
+                <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground animate-pulse">Authenticating Admin Session...</p>
+                </div>
+            </DashboardLayout>
+        );
+    }
+
+    if (!adminProfile || adminProfile.user_type !== "admin") {
         return (
             <DashboardLayout>
                 <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
@@ -144,6 +155,11 @@ const Admin = () => {
                     </div>
                     <h2 className="text-xl font-bold uppercase tracking-widest text-red-500">Access Denied</h2>
                     <p className="text-muted-foreground text-sm">This area is reserved for administrators only.</p>
+                    <div className="mt-4 p-4 bg-muted/50 rounded-xl border border-border text-[10px] font-mono">
+                        <p>ID: {adminProfile?.id || 'NULL'}</p>
+                        <p>EMAIL: {adminProfile?.email || 'NULL'}</p>
+                        <p>TYPE: {adminProfile?.user_type || 'NULL'}</p>
+                    </div>
                 </div>
             </DashboardLayout>
         );
