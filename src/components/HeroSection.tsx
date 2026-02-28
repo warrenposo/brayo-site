@@ -7,7 +7,7 @@ const HeroSection = () => {
         <div className="flex justify-center md:justify-end">
           <img
             src={heroPhone}
-            alt="Brayo Site app on phone"
+            alt="merovianscapital app on phone"
             className="w-72 md:w-96 drop-shadow-2xl"
           />
         </div>
@@ -18,7 +18,7 @@ const HeroSection = () => {
             <span className="text-foreground">major crypto assets with confidence and clarity.</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-lg">
-            Brayo Site gives your clients a powerful and clean experience to{" "}
+            merovianscapital gives your clients a powerful and clean experience to{" "}
             <span className="text-secondary">buy</span>,{" "}
             <span className="text-secondary">sell</span>, and{" "}
             <span className="text-secondary">track</span>{" "}

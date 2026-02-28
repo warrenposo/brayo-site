@@ -1,18 +1,19 @@
 import { useState } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Copy, ChevronRight } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 
 const cryptoOptions = [
-    { name: "Bitcoin", symbol: "BTC", address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh" },
-    { name: "Ethereum", symbol: "ETH", address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F" },
-    { name: "USDT (ERC20)", symbol: "USDT", address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F" },
-    { name: "USDT (TRC20)", symbol: "USDT", address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t" },
-    { name: "USDC (Ethereum)", symbol: "USDC", address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F" },
-    { name: "Solana", symbol: "SOL", address: "vines1vzrYbzRbs2CRoM4ceBAzhdBTO780vfs777777" },
+    { name: "Bitcoin", symbol: "BTC", address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh", icon: "https://assets.coincap.io/assets/icons/btc@2x.png" },
+    { name: "Ethereum", symbol: "ETH", address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", icon: "https://assets.coincap.io/assets/icons/eth@2x.png" },
+    { name: "USDT (ERC20)", symbol: "USDT", address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", icon: "https://assets.coincap.io/assets/icons/usdt@2x.png" },
+    { name: "USDT (TRC20)", symbol: "USDT", address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", icon: "https://assets.coincap.io/assets/icons/usdt@2x.png" },
+    { name: "USDC (Ethereum)", symbol: "USDC", address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", icon: "https://assets.coincap.io/assets/icons/usdc@2x.png" },
+    { name: "Solana", symbol: "SOL", address: "vines1vzrYbzRbs2CRoM4ceBAzhdBTO780vfs777777", icon: "https://assets.coincap.io/assets/icons/sol@2x.png" },
 ];
 
 const Deposit = () => {
@@ -28,7 +29,7 @@ const Deposit = () => {
             <div className="space-y-8 max-w-2xl mx-auto animate-in fade-in duration-500">
                 <div>
                     <h2 className="text-3xl font-black tracking-tight text-foreground uppercase tracking-widest">Global Deposit</h2>
-                    <p className="text-muted-foreground text-sm font-medium">Transfer assets to your BRAYO account via direct blockchain transfer.</p>
+                    <p className="text-muted-foreground text-sm font-medium">Transfer assets to your merovianscapital account via direct blockchain transfer.</p>
                 </div>
 
                 {!selectedCrypto ? (
@@ -46,8 +47,17 @@ const Deposit = () => {
                                         onClick={() => setSelectedCrypto(crypto)}
                                     >
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-xl bg-muted group-hover:bg-primary/10 flex items-center justify-center font-black text-xs transition-colors border border-border/50">
-                                                {crypto.symbol}
+                                            <div className="w-12 h-12 rounded-xl bg-muted group-hover:bg-primary/10 flex items-center justify-center p-2 transition-colors border border-border/50 overflow-hidden">
+                                                <img
+                                                    src={crypto.icon}
+                                                    alt={crypto.symbol}
+                                                    className="w-full h-full object-contain"
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement;
+                                                        target.style.display = 'none';
+                                                        target.parentElement!.innerText = crypto.symbol;
+                                                    }}
+                                                />
                                             </div>
                                             <div>
                                                 <p className="font-bold text-sm text-foreground group-hover:text-primary transition-colors">{crypto.name}</p>

@@ -34,7 +34,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const SidebarContent = () => (
         <div className="flex flex-col h-full bg-card border-r border-border">
             <div className="p-6 text-center">
-                <h1 className="text-xl font-black text-primary tracking-[0.2em]">BRAYO SITE</h1>
+                <h1 className="text-xl font-black text-primary tracking-[0.2em]">MEROVIANSCAPITAL</h1>
                 <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mt-1">Trading Platform</p>
             </div>
             <nav className="flex-1 px-4 space-y-1">
@@ -82,7 +82,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <main className="flex-1 md:pl-72 flex flex-col min-h-screen relative">
                 {/* Mobile Header */}
                 <header className="md:hidden flex items-center justify-between p-4 border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-40">
-                    <h1 className="text-lg font-black text-primary tracking-widest">BRAYO SITE</h1>
+                    <h1 className="text-lg font-black text-primary tracking-widest">MEROVIANSCAPITAL</h1>
                     <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
                         <SheetTrigger asChild>
                             <Button variant="ghost" size="icon" className="hover:bg-primary/10">

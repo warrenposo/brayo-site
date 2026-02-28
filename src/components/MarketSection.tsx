@@ -1,61 +1,72 @@
+import { useState } from "react";
+import TradingViewWidget from "./TradingViewWidget";
+
 const cryptoData = [
-  { symbol: "BTC", name: "Bitcoin", price: "$65,586.51", change: "-1.50%", negative: true },
-  { symbol: "ETH", name: "Ethereum", price: "$1,870.18", change: "+2.34%", negative: false },
-  { symbol: "SOL", name: "Solana", price: "$124.41", change: "+4.87%", negative: false },
-  { symbol: "DOGE", name: "Dogecoin", price: "$0.7705", change: "-0.42%", negative: true },
-  { symbol: "XRP", name: "Ripple", price: "$2.09", change: "+1.15%", negative: false },
+  { symbol: "BTC", name: "Bitcoin", price: "$65,879.83", change: "+0.05%", negative: false, tradingViewSymbol: "BINANCE:BTCUSDT" },
+  { symbol: "ETH", name: "Ethereum", price: "$3,452.12", change: "+1.24%", negative: false, tradingViewSymbol: "BINANCE:ETHUSDT" },
+  { symbol: "ADA", name: "Cardano", price: "$0.4521", change: "-0.87%", negative: true, tradingViewSymbol: "BINANCE:ADAUSDT" },
+  { symbol: "BNB", name: "Binance Coin", price: "$582.34", change: "+0.15%", negative: false, tradingViewSymbol: "BINANCE:BNBUSDT" },
+  { symbol: "SOL", name: "Solana", price: "$142.11", change: "+2.45%", negative: false, tradingViewSymbol: "BINANCE:SOLUSDT" },
 ];
 
 const MarketSection = () => {
-  return (
-    <section id="market" className="py-24">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-center text-gradient-blue">
-          Market Pulse & Movement
-        </h2>
-        <div className="section-divider mb-12" />
+  const [selectedAsset, setSelectedAsset] = useState(cryptoData[0]);
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Chart placeholder */}
-          <div className="bg-card rounded-lg border border-border p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <span className="text-foreground font-semibold">Bitcoin (BTC):</span>
-              <span className="text-green">$65,586.51</span>
-              <span className="text-red text-sm">-1.50%</span>
+  return (
+    <section id="market" className="py-24 bg-background">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl md:text-5xl font-black text-center text-[#2563EB] mb-12">
+          Market Pulse & Movement
+          <div className="w-24 h-1 bg-[#FACC15] mx-auto mt-4" />
+        </h2>
+
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-8 space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-foreground font-black text-sm uppercase tracking-widest">{selectedAsset.name} ({selectedAsset.symbol}):</span>
+              <span className="text-[#FACC15] font-black">{selectedAsset.price}</span>
+              <span className={selectedAsset.negative ? "text-red-500" : "text-green-500"}>{selectedAsset.change}</span>
             </div>
-            <div className="space-y-2">
-              {cryptoData.map((coin) => (
-                <div key={coin.symbol} className="flex items-center justify-between py-3 border-b border-border last:border-0">
-                  <div className="flex items-center gap-3">
-                    <span className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-xs font-bold text-foreground">
-                      {coin.symbol}
-                    </span>
-                    <div>
-                      <p className="text-foreground font-medium text-sm">{coin.name}</p>
-                      <p className="text-muted-foreground text-xs">{coin.symbol}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-foreground text-sm font-medium">{coin.price}</p>
-                    <p className={`text-xs ${coin.negative ? "text-red" : "text-green"}`}>{coin.change}</p>
-                  </div>
-                </div>
-              ))}
+
+            <div className="flex bg-[#0F172A] rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
+              {/* Asset Selection Sidebar */}
+              <div className="w-24 border-r border-white/5 flex flex-col p-2 gap-2 bg-[#020617]">
+                {cryptoData.map((asset) => (
+                  <button
+                    key={asset.symbol}
+                    onClick={() => setSelectedAsset(asset)}
+                    className={`h-12 flex items-center justify-center rounded-lg text-xs font-black transition-all ${selectedAsset.symbol === asset.symbol
+                      ? "bg-[#FACC15] text-black shadow-lg shadow-yellow-500/20"
+                      : "text-white/40 hover:text-white hover:bg-white/5 border border-white/10"
+                      }`}
+                  >
+                    {asset.symbol}
+                  </button>
+                ))}
+              </div>
+
+              {/* Chart Area */}
+              <div className="flex-1 min-h-[450px]">
+                <TradingViewWidget symbol={selectedAsset.tradingViewSymbol} height={450} />
+              </div>
             </div>
           </div>
 
-          {/* Empower text */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-heading font-bold text-foreground">How Brayo Site Empowers You</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Digital assets move 24/7 across global exchanges, driven by institutional flows, retail sentiment, and macroeconomic forces. Understanding these patterns is the key to profitable trading.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              Brayo Site enables you to buy and sell crypto profitably with precision timing tools and market insights. Buy and Sell with our secure, fast platform designed for profitable outcomes.
-            </p>
-            <button className="px-8 py-3 rounded-md bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity">
-              Trade Now
-            </button>
+          <div className="lg:col-span-4 space-y-8 pt-8">
+            <div className="space-y-6">
+              <h3 className="text-4xl font-black text-white leading-tight">
+                How Merovian <br /> Empowers You
+              </h3>
+              <p className="text-white/60 text-lg leading-relaxed">
+                Digital assets move 24/7 across global exchanges, driven by institutional flows, retail sentiment, and macroeconomic forces. Understanding these patterns is the key to profitable trading.
+              </p>
+              <p className="text-white/60 text-lg leading-relaxed">
+                Merovian enables you to buy and sell crypto profitably with precision timing tools and market insights. Buy and Sell with our secure, fast platform designed for profitable outcomes.
+              </p>
+              <button className="w-full h-16 rounded-2xl bg-[#FACC15] text-black font-black text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-yellow-500/20">
+                Trade Now
+              </button>
+            </div>
           </div>
         </div>
       </div>

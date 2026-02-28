@@ -1,31 +1,22 @@
+import { useState } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useProfile } from "@/hooks/useProfile";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { TrendingUp, ArrowUpRight, ArrowDownRight, Activity, Wallet, BarChart3, PieChart, Timer } from "lucide-react";
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import { TrendingUp, ArrowUpRight, Activity, Wallet, BarChart3, PieChart, Timer } from "lucide-react";
+import TradingViewWidget from "@/components/TradingViewWidget";
 
-const chartData = [
-    { time: "00:00", price: 62000 },
-    { time: "03:00", price: 63500 },
-    { time: "06:00", price: 63000 },
-    { time: "09:00", price: 65000 },
-    { time: "12:00", price: 67000 },
-    { time: "15:00", price: 66000 },
-    { time: "18:00", price: 68000 },
-    { time: "21:00", price: 65438 },
-];
-
-const topMovers = [
-    { name: "Bitcoin", symbol: "BTC", price: "$65,438.96", change: "+0.37%", positive: true },
-    { name: "Ethereum", symbol: "ETH", price: "$2,680.50", change: "-1.42%", positive: false },
-    { name: "Cardano", symbol: "ADA", price: "$0.520", change: "+0.85%", positive: true },
-    { name: "BNB", symbol: "BNB", price: "$615.00", change: "+1.23%", positive: true },
-    { name: "Solana", symbol: "SOL", price: "$98.75", change: "+5.67%", positive: true },
+const cryptoData = [
+    { name: "Bitcoin", symbol: "BTC", price: "$65,745.49", change: "+0.10%", positive: true, tradingViewSymbol: "BINANCE:BTCUSDT", icon: "https://assets.coincap.io/assets/icons/btc@2x.png" },
+    { name: "Ethereum", symbol: "ETH", price: "$1,925.93", change: "+0.44%", positive: true, tradingViewSymbol: "BINANCE:ETHUSDT", icon: "https://assets.coincap.io/assets/icons/eth@2x.png" },
+    { name: "Cardano", symbol: "ADA", price: "$0.272", change: "-1.31%", positive: false, tradingViewSymbol: "BINANCE:ADAUSDT", icon: "https://assets.coincap.io/assets/icons/ada@2x.png" },
+    { name: "BNB", symbol: "BNB", price: "$610.04", change: "+0.23%", positive: true, tradingViewSymbol: "BINANCE:BNBUSDT", icon: "https://assets.coincap.io/assets/icons/bnb@2x.png" },
+    { name: "Solana", symbol: "SOL", price: "$81.96", change: "+0.76%", positive: true, tradingViewSymbol: "BINANCE:SOLUSDT", icon: "https://assets.coincap.io/assets/icons/sol@2x.png" },
 ];
 
 const Dashboard = () => {
     const { profile, loading } = useProfile();
+    const [selectedAsset, setSelectedAsset] = useState(cryptoData[0]);
 
     if (loading) return (
         <DashboardLayout>
@@ -66,111 +57,117 @@ const Dashboard = () => {
                 </div>
 
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    <Card className="bg-card border-border/50 shadow-xl overflow-hidden group hover:border-primary/50 transition-colors">
+                    <Card className="bg-[#0F172A] border-white/5 shadow-xl overflow-hidden group hover:border-yellow-500/30 transition-all duration-500">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground group-hover:text-primary transition-colors">Available Liquidity</CardTitle>
-                            <Wallet className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-all" />
+                            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-yellow-500 transition-colors">Total Balance (USD)</CardTitle>
+                            <Wallet className="h-4 w-4 text-white/40 group-hover:text-yellow-500 transition-all" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-black tabular-nums">{profile?.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-xs font-bold text-muted-foreground opacity-50 ml-1">USDT</span></div>
-                            <p className="text-[10px] text-green-500 mt-2 flex items-center font-bold font-mono">
+                            <div className="text-3xl font-black tabular-nums text-white">${profile?.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                            <p className="text-[10px] text-green-500 mt-2 flex items-center font-bold tracking-widest">
                                 <ArrowUpRight className="h-3 w-3 mr-1" />
-                                +{profile?.performance.toFixed(2)}% Performance
+                                +0.00%
                             </p>
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-card border-border/50 shadow-xl overflow-hidden group hover:border-primary/50 transition-colors">
+                    <Card className="bg-[#0F172A] border-white/5 shadow-xl overflow-hidden group hover:border-yellow-500/30 transition-all duration-500">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground group-hover:text-primary transition-colors">Yield Optimization</CardTitle>
-                            <BarChart3 className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-all" />
+                            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-yellow-500 transition-colors">Performance</CardTitle>
+                            <BarChart3 className="h-4 w-4 text-white/40 group-hover:text-yellow-500 transition-all" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-black tabular-nums">{profile?.performance}%</div>
-                            <p className="text-[10px] text-muted-foreground mt-2 font-bold uppercase tracking-widest opacity-60">Total Profitability</p>
+                            <div className="text-3xl font-black tabular-nums text-white">{profile?.performance}%</div>
+                            <p className="text-[10px] text-yellow-500 mt-2 font-bold uppercase tracking-widest">+0% Gain</p>
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-card border-border/50 shadow-xl overflow-hidden group hover:border-primary/50 transition-colors">
+                    <Card className="bg-[#0F172A] border-white/5 shadow-xl overflow-hidden group hover:border-yellow-500/30 transition-all duration-500">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground group-hover:text-primary transition-colors">Cumulative Returns</CardTitle>
-                            <PieChart className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-all" />
+                            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-yellow-500 transition-colors">Total Profits</CardTitle>
+                            <PieChart className="h-4 w-4 text-white/40 group-hover:text-yellow-500 transition-all" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-black tabular-nums">${profile?.total_profits.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
-                            <p className="text-[10px] text-muted-foreground mt-2 font-bold uppercase tracking-widest opacity-60">Net Realized Gain</p>
+                            <div className="text-3xl font-black tabular-nums text-white">${profile?.total_profits.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
+                            <p className="text-[10px] text-yellow-500 mt-2 font-bold uppercase tracking-widest">+0% Gain</p>
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-card border-border/50 shadow-xl overflow-hidden group hover:border-primary/50 transition-colors">
+                    <Card className="bg-[#0F172A] border-white/5 shadow-xl overflow-hidden group hover:border-yellow-500/30 transition-all duration-500">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground group-hover:text-primary transition-colors">Trading Velocity</CardTitle>
-                            <Timer className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-all" />
+                            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-yellow-500 transition-colors">Active Trades</CardTitle>
+                            <Timer className="h-4 w-4 text-white/40 group-hover:text-yellow-500 transition-all" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-black tabular-nums">{profile?.active_trades}</div>
-                            <p className="text-[10px] text-muted-foreground mt-2 font-bold uppercase tracking-widest opacity-60">Open Transmissions</p>
+                            <div className="text-3xl font-black tabular-nums text-white">{profile?.active_trades}</div>
+                            <p className="text-[10px] text-yellow-500 mt-2 font-bold uppercase tracking-widest">+0 Open Positions</p>
                         </CardContent>
                     </Card>
                 </div>
 
                 <div className="grid gap-8 lg:grid-cols-12">
-                    <Card className="lg:col-span-8 bg-card border-border/50 shadow-2xl overflow-hidden">
-                        <CardHeader className="bg-muted/20 border-b border-border/50 py-6 px-8 flex flex-row items-center justify-between">
+                    <Card className="lg:col-span-8 bg-[#0F172A] border-white/5 shadow-2xl overflow-hidden">
+                        <CardHeader className="bg-white/[0.02] border-b border-white/5 py-6 px-8 flex flex-row items-center justify-between">
                             <div className="space-y-1">
-                                <CardTitle className="text-sm font-black uppercase tracking-widest">Market Analysis: BTC/USDT</CardTitle>
-                                <CardDescription className="text-[10px] font-bold">Live Data Transmission | 24h Aggregated Feed</CardDescription>
-                            </div>
-                            <div className="flex items-center gap-4 bg-background px-4 py-2 rounded-xl border border-border/50">
-                                <span className="text-lg font-black tabular-nums text-yellow-500">$65,438.96</span>
-                                <span className="text-[10px] font-bold text-green-500">+0.37%</span>
+                                <CardTitle className="text-sm font-black uppercase tracking-widest text-white">{selectedAsset.name} ({selectedAsset.symbol}): <span className="text-[#FACC15]">${selectedAsset.price.replace('$', '')}</span> <span className={cn("ml-2", selectedAsset.positive ? "text-green-500" : "text-red-500")}>{selectedAsset.change}</span></CardTitle>
                             </div>
                         </CardHeader>
-                        <CardContent className="p-8 h-[400px]">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <AreaChart data={chartData}>
-                                    <defs>
-                                        <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.2} />
-                                            <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
-                                        </linearGradient>
-                                    </defs>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
-                                    <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#666', fontWeight: 'bold' }} />
-                                    <YAxis hide domain={['auto', 'auto']} />
-                                    <Tooltip
-                                        contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid #222', borderRadius: '12px', fontSize: '10px', padding: '12px' }}
-                                        labelStyle={{ fontWeight: 'black', marginBottom: '4px', textTransform: 'uppercase' }}
-                                        itemStyle={{ color: '#f59e0b', fontWeight: 'bold' }}
-                                    />
-                                    <Area type="monotone" dataKey="price" stroke="#f59e0b" fillOpacity={1} fill="url(#colorPrice)" strokeWidth={3} />
-                                </AreaChart>
-                            </ResponsiveContainer>
+                        <CardContent className="p-0 flex h-[450px]">
+                            {/* Asset Selection Sidebar */}
+                            <div className="w-20 border-r border-white/5 flex flex-col p-2 gap-2 bg-black/20">
+                                {cryptoData.map((asset) => (
+                                    <button
+                                        key={asset.symbol}
+                                        onClick={() => setSelectedAsset(asset)}
+                                        className={cn(
+                                            "h-12 flex items-center justify-center rounded-lg text-xs font-black transition-all border",
+                                            selectedAsset.symbol === asset.symbol
+                                                ? "bg-[#FACC15] text-black border-[#FACC15] shadow-lg shadow-yellow-500/10"
+                                                : "text-white/20 border-white/5 hover:text-white/60 hover:bg-white/5"
+                                        )}
+                                    >
+                                        {asset.symbol}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="flex-1">
+                                <TradingViewWidget symbol={selectedAsset.tradingViewSymbol} />
+                            </div>
                         </CardContent>
                     </Card>
 
-                    <Card className="lg:col-span-4 bg-card border-border/50 shadow-2xl overflow-hidden flex flex-col">
-                        <CardHeader className="bg-muted/20 border-b border-border/50 py-6 px-8">
-                            <CardTitle className="text-sm font-black uppercase tracking-widest flex items-center gap-2">
-                                <TrendingUp size={16} className="text-primary" /> Global Movers
+                    <Card className="lg:col-span-4 bg-[#0F172A] border-white/5 shadow-2xl overflow-hidden flex flex-col">
+                        <CardHeader className="bg-white/[0.02] border-b border-white/5 py-6 px-8">
+                            <CardTitle className="text-sm font-black uppercase tracking-widest flex items-center gap-2 text-white">
+                                <TrendingUp size={16} className="text-[#FACC15]" /> Top Movers
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-0 flex-1 overflow-y-auto">
-                            <div className="divide-y divide-border/50">
-                                {topMovers.map((coin) => (
-                                    <div key={coin.symbol} className="flex items-center justify-between p-5 hover:bg-primary/5 transition-all group cursor-default">
+                            <div className="divide-y divide-white/5">
+                                {cryptoData.map((coin) => (
+                                    <div key={coin.symbol} className="flex items-center justify-between p-6 hover:bg-white/[0.02] transition-all group cursor-default">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-xl bg-muted group-hover:bg-primary/10 flex items-center justify-center font-black text-[11px] transition-colors border border-border/50">
-                                                {coin.symbol}
+                                            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center p-2 border border-white/5 overflow-hidden">
+                                                <img
+                                                    src={coin.icon}
+                                                    alt={coin.symbol}
+                                                    className="w-full h-full object-contain"
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement;
+                                                        target.style.display = 'none';
+                                                        target.parentElement!.innerText = coin.symbol.slice(0, 2);
+                                                        target.parentElement!.classList.add('text-[10px]', 'font-black', 'text-white/40');
+                                                    }}
+                                                />
                                             </div>
                                             <div>
-                                                <p className="text-xs font-black text-foreground">{coin.name}</p>
-                                                <p className="text-[9px] text-muted-foreground uppercase font-black tracking-tighter opacity-70">{coin.symbol}</p>
+                                                <p className="text-sm font-black text-white">{coin.name}</p>
+                                                <p className="text-[10px] text-white/40 uppercase font-black tracking-tighter">{coin.symbol}</p>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-xs font-black tabular-nums">{coin.price}</p>
-                                            <p className={cn("text-[10px] font-bold tabular-nums", coin.positive ? "text-green-500" : "text-red-500")}>{coin.change}</p>
+                                            <p className="text-sm font-black tabular-nums text-white">{coin.price}</p>
+                                            <p className={cn("text-[11px] font-bold tabular-nums", coin.positive ? "text-green-500" : "text-red-500")}>{coin.change}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -179,19 +176,19 @@ const Dashboard = () => {
                     </Card>
                 </div>
 
-                <Card className="bg-card border-border/50 shadow-2xl overflow-hidden">
-                    <CardHeader className="bg-muted/10 border-b border-border/50 py-6 px-8">
-                        <CardTitle className="text-sm font-black uppercase tracking-widest flex items-center gap-2">
-                            <Timer size={16} className="text-muted-foreground" /> Ledger Feed
+                <Card className="bg-[#0F172A] border-white/5 shadow-2xl overflow-hidden">
+                    <CardHeader className="bg-white/[0.02] border-b border-white/5 py-6 px-8">
+                        <CardTitle className="text-sm font-black uppercase tracking-widest flex items-center gap-2 text-white">
+                            <Timer size={16} className="text-white/40" /> Ledger Feed
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
-                        <div className="text-center py-20 bg-card/50">
-                            <div className="w-12 h-12 rounded-full bg-muted mx-auto flex items-center justify-center mb-4">
-                                <Activity size={20} className="text-muted-foreground opacity-30" />
+                        <div className="text-center py-20">
+                            <div className="w-12 h-12 rounded-full bg-white/5 mx-auto flex items-center justify-center mb-4 border border-white/5">
+                                <Activity size={20} className="text-white/20" />
                             </div>
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground opacity-50">Transmissions Empty</h4>
-                            <p className="text-[9px] font-bold text-muted-foreground mt-1 uppercase tracking-tighter opacity-40">Initialize a trade to populate the ledger</p>
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Transmissions Empty</h4>
+                            <p className="text-[9px] font-bold text-white/20 mt-1 uppercase tracking-tighter">Initialize a trade to populate the ledger</p>
                         </div>
                     </CardContent>
                 </Card>

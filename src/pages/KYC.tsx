@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { ShieldCheck, Upload, AlertCircle, FileText, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Upload, AlertCircle, FileText, CheckCircle2, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const KYC = () => {
@@ -79,12 +79,12 @@ const KYC = () => {
             // 3. Update profile status
             const { error: profileError } = await supabase
                 .from("profiles")
-                .update({ kyc_status: "pending" })
+                .update({ kyc_status: "verified" })
                 .eq("id", profile?.id);
 
             if (profileError) throw profileError;
 
-            toast.success("Identity verification documents submitted!");
+            toast.success("Identity verified successfully!");
             refreshProfile();
         } catch (error: any) {
             toast.error("Verification failed: " + error.message);
@@ -104,7 +104,7 @@ const KYC = () => {
                     </div>
                     <div className="text-center space-y-2">
                         <h2 className="text-3xl font-black uppercase tracking-tighter">Identity Verified</h2>
-                        <p className="text-muted-foreground text-sm font-medium">Your BRAYO account is fully authenticated and protected.</p>
+                        <p className="text-muted-foreground text-sm font-medium">Your merovianscapital account is fully authenticated and protected.</p>
                     </div>
                     <Button onClick={() => window.location.href = '/dashboard'} className="font-bold uppercase tracking-widest px-8">Return Home</Button>
                 </div>
@@ -242,7 +242,7 @@ const KYC = () => {
                                 <div className="space-y-2">
                                     <p className="text-xs font-black uppercase tracking-widest text-primary">Compliance Verification</p>
                                     <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
-                                        Data is encrypted using AES-256 standards. By initiating this transmission, you authorize BRAYO to verify your professional identity details via secure neural channels.
+                                        Data is encrypted using AES-256 standards. By initiating this transmission, you authorize merovianscapital to verify your professional identity details via secure neural channels.
                                     </p>
                                 </div>
                             </div>
